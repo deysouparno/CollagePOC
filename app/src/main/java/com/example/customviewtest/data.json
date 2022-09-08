@@ -1,0 +1,159 @@
+{
+  "templates": [
+    {
+      "numberOfImages": 5,
+      "imagesTemplate": [
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, -100, 1, 2]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [0, -100, -100, 3]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, 0, 3, -100]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [2, 1, -100, -100]
+        },
+        {
+          "height": 200,
+          "width": 200,
+          "constraints": [-100, -100, -100, -100]
+        }
+      ]
+
+    },
+    {
+      "numberOfImages": 5,
+      "imagesTemplate": [
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, -100, 1, 2]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [0, -100, -100, 3]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, 0, 3, -100]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [2, 1, -100, -100]
+        },
+        {
+          "height": 200,
+          "width": 200,
+          "constraints": [-100, -100, -100, -100]
+        }
+      ]
+
+    },
+    {
+      "numberOfImages": 5,
+      "imagesTemplate": [
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, -100, 1, 2]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [0, -100, -100, 3]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, 0, 3, -100]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [2, 1, -100, -100]
+        },
+        {
+          "height": 200,
+          "width": 200,
+          "constraints": [-100, -100, -100, -100]
+        }
+      ]
+
+    },
+    {
+      "numberOfImages": 5,
+      "imagesTemplate": [
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, -100, 1, 2]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [0, -100, -100, 3]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, 0, 3, -100]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [2, 1, -100, -100]
+        },
+        {
+          "height": 200,
+          "width": 200,
+          "constraints": [-100, -100, -100, -100]
+        }
+      ]
+
+    },
+    {
+      "numberOfImages": 5,
+      "imagesTemplate": [
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, -100, 1, 2]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [0, -100, -100, 3]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [-100, 0, 3, -100]
+        },
+        {
+          "height": 0,
+          "width": 0,
+          "constraints": [2, 1, -100, -100]
+        },
+        {
+          "height": 200,
+          "width": 200,
+          "constraints": [-100, -100, -100, -100]
+        }
+      ]
+
+    }
+  ]
+}
