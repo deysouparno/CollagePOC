@@ -7,7 +7,6 @@ import android.graphics.Matrix
 import android.graphics.PointF
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -50,7 +49,11 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
         sharedConstructing(context)
     }
 
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context!!, attrs, defStyleAttr)
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context!!,
+        attrs,
+        defStyleAttr
+    )
 
     private fun sharedConstructing(context: Context) {
         super.setClickable(true)
@@ -83,12 +86,17 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
                 mScaleFactor = mMinScale / prevScale
             }
             if (origWidth * mSaveScale <= viewWidth
-                || origHeight * mSaveScale <= viewHeight) {
-                mMatrix!!.postScale(mScaleFactor, mScaleFactor, viewWidth / 2.toFloat(),
-                    viewHeight / 2.toFloat())
+                || origHeight * mSaveScale <= viewHeight
+            ) {
+                mMatrix!!.postScale(
+                    mScaleFactor, mScaleFactor, viewWidth / 2.toFloat(),
+                    viewHeight / 2.toFloat()
+                )
             } else {
-                mMatrix!!.postScale(mScaleFactor, mScaleFactor,
-                    detector.focusX, detector.focusY)
+                mMatrix!!.postScale(
+                    mScaleFactor, mScaleFactor,
+                    detector.focusX, detector.focusY
+                )
             }
             fixTranslation()
             return true
@@ -100,7 +108,7 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
         }
     }
 
-    private  fun fitToScreen() {
+    private fun fitToScreen() {
         mSaveScale = 1f
         val scale: Float
         val drawable = drawable
@@ -127,8 +135,10 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
 
     fun fixTranslation() {
         mMatrix!!.getValues(mMatrixValues) //put matrix values into a float array so we can analyze
-        val transX = mMatrixValues!![Matrix.MTRANS_X] //get the most recent translation in x direction
-        val transY = mMatrixValues!![Matrix.MTRANS_Y] //get the most recent translation in y direction
+        val transX =
+            mMatrixValues!![Matrix.MTRANS_X] //get the most recent translation in x direction
+        val transY =
+            mMatrixValues!![Matrix.MTRANS_Y] //get the most recent translation in y direction
         val fixTransX = getFixTranslation(transX, viewWidth.toFloat(), origWidth * mSaveScale)
         val fixTransY = getFixTranslation(transY, viewHeight.toFloat(), origHeight * mSaveScale)
         if (fixTransX != 0f || fixTransY != 0f) mMatrix!!.postTranslate(fixTransX, fixTransY)
@@ -153,21 +163,6 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
         return 0F
     }
 
-    fun startDragAndDrop() {
-        val clipText = "ClipData"
-        val item = ClipData.Item(clipText)
-        val mimetypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-        val data = ClipData(clipText, mimetypes, item)
-
-        val dragShadowBuilder = View.DragShadowBuilder(this)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.startDragAndDrop(data, dragShadowBuilder, this, 0)
-        } else {
-            this.startDrag(data, dragShadowBuilder, this, 0)
-        }
-        this.visibility = View.VISIBLE
-    }
-
     private fun getFixDragTrans(delta: Float, viewSize: Float, contentSize: Float): Float {
         return if (contentSize <= viewSize) {
             0F
@@ -180,7 +175,6 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
         viewHeight = MeasureSpec.getSize(heightMeasureSpec)
         if (mSaveScale == 1f) {
 
-            // Fit to screen.
             fitToScreen()
         }
     }
@@ -201,9 +195,9 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
                 isLongClickable = true
             }
             MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
-                isLongClickable = false
                 val dx = currentPoint.x - mLast.x
                 val dy = currentPoint.y - mLast.y
+                if (dx > 5 || dy > 5) isLongClickable = false
                 val fixTransX = getFixDragTrans(dx, viewWidth.toFloat(), origWidth * mSaveScale)
                 val fixTransY = getFixDragTrans(dy, viewHeight.toFloat(), origHeight * mSaveScale)
                 mMatrix!!.postTranslate(fixTransX, fixTransY)
@@ -232,12 +226,22 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
         return false
     }
 
-    override fun onScroll(motionEvent: MotionEvent, motionEvent1: MotionEvent, v: Float, v1: Float): Boolean {
+    override fun onScroll(
+        motionEvent: MotionEvent,
+        motionEvent1: MotionEvent,
+        v: Float,
+        v1: Float
+    ): Boolean {
         return false
     }
 
     override fun onLongPress(motionEvent: MotionEvent) {}
-    override fun onFling(motionEvent: MotionEvent, motionEvent1: MotionEvent, v: Float, v1: Float): Boolean {
+    override fun onFling(
+        motionEvent: MotionEvent,
+        motionEvent1: MotionEvent,
+        v: Float,
+        v1: Float
+    ): Boolean {
         return false
     }
 
@@ -325,6 +329,17 @@ class CustomImageView(context: Context, dragable: Boolean = false) : ConstraintL
         this.addView(imageView)
         imageView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         imageView.setOnTouchListener(this)
+    }
+
+}
+
+class ImageViewContainer(context: Context): ConstraintLayout(context) {
+    lateinit var imageview: ZoomImageView
+
+
+    fun setUpImageView() {
+        this.addView(imageview)
+        imageview.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
     }
 
 }
