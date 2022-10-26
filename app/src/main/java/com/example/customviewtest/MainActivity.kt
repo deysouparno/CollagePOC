@@ -60,23 +60,27 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, FreestyleActivity::class.java))
         }
 
-        val v = TestView(this)
-        v.setImageDrawable(getDrawable(R.drawable.bird))
-        v.setBackgroundColor(Color.YELLOW)
-        v.setPadding(5, 5, 5, 5)
-
-
-        binding.root.addView(v)
-
-        (v.layoutParams as ConstraintLayout.LayoutParams).apply {
-            topToTop = binding.root.id
-            bottomToBottom = binding.root.id
-            leftToLeft = binding.root.id
-            rightToRight = binding.root.id
-
-            height = 500
-            width = 500
+        binding.slantButton.setOnClickListener {
+            startActivity(Intent(this, PuzzleActivity::class.java))
         }
+
+//        val v = TestView(this)
+//        v.setImageDrawable(getDrawable(R.drawable.bird))
+//        v.setBackgroundColor(Color.YELLOW)
+//        v.setPadding(5, 5, 5, 5)
+
+
+//        binding.root.addView(v)
+
+//        (v.layoutParams as ConstraintLayout.LayoutParams).apply {
+//            topToTop = binding.root.id
+//            bottomToBottom = binding.root.id
+//            leftToLeft = binding.root.id
+//            rightToRight = binding.root.id
+//
+//            height = 500
+//            width = 500
+//        }
 
     }
 

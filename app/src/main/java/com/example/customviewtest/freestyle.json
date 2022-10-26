@@ -1,0 +1,49 @@
+{
+  "templates": [
+    {
+      "images": [
+        {
+          "height": 0.3,
+          "width": 0.4,
+          "point": {
+            "x": 80.0,
+            "y": 100.0
+          },
+          "rotation": -8.0,
+          "viewClass": "in.simplifiedbytes.maskedimageview.PngMaskImageView",
+          "mask": ""
+        },
+        {
+          "height": 0.3,
+          "width": 0.4,
+          "point": {
+            "x": 600.0,
+            "y": 220.0
+          },
+          "rotation": 6.0
+        },
+        {
+          "height": 0.3,
+          "width": 0.4,
+          "point": {
+            "x": 600.0,
+            "y": 1200.0
+          },
+          "rotation": 8.0
+        }
+      ],
+      "stickers": [
+        {
+          "height": 0.15,
+          "width": 0.15,
+          "point": {
+            "x": 600.0,
+            "y": 1200.0
+          },
+          "rotation": 0.0,
+          "drawable": ""
+        }
+      ]
+    }
+  ]
+}

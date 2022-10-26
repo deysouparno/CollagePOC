@@ -7,19 +7,42 @@
     android:layout_height="match_parent"
     tools:context=".FreestyleActivity">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/Theme.CustomViewTest.AppBarOverlay">-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_700"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:background="?attr/colorPrimary"-->
-<!--            app:popupTheme="@style/Theme.CustomViewTest.PopupOverlay" />-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prev_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_previous" />
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/layout_tv"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Layout 1"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/next_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            app:srcCompat="@drawable/ic_next" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/collage_container"
@@ -29,7 +52,7 @@
         app:layout_constraintBottom_toTopOf="@id/padding_slider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/linearLayoutCompat" />
 
 
     <com.google.android.material.slider.Slider
@@ -37,6 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/radius_slider"
@@ -46,6 +70,7 @@
         android:id="@+id/radius_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginHorizontal="10dp"
         app:layout_constraintTop_toBottomOf="@id/collage_container"
         app:layout_constraintEnd_toStartOf="@id/padding_slider"

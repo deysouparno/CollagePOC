@@ -1,0 +1,93 @@
+{
+  "templates": {
+    "5" : {
+      "layouts": [
+        {
+          "imagesTemplate": [
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [-100, -100, 1, 2],
+              "viewClass": 1,
+              "horizontalWeight": 1.0,
+              "verticalWight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [0, -100, -100, 3],
+              "viewClass": 1,
+              "horizontalWeight": 1.0,
+              "verticalWight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [-100, 0, 3, -100],
+              "viewClass": 1,
+              "horizontalWeight": 1.0,
+              "verticalWight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [2, 1, -100, -100],
+              "viewClass": 1,
+              "horizontalWeight": 1.0,
+              "verticalWight": 1.0
+            },
+            {
+              "height": 200,
+              "width": 200,
+              "constraints": [-100, -100, -100, -100],
+              "viewClass": 2,
+              "horizontalWeight": 1.0,
+              "verticalWight": 1.0
+            }
+          ]
+        },
+        {
+          "imagesTemplate": [
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [-100, -100, -100, 1],
+              "horizontalWeight": 1.0,
+              "verticalWeight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [-100, 0, 2, 3],
+              "horizontalWeight": 1.0,
+              "verticalWeight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [-1, 1, -100, -1],
+              "horizontalWeight": 1.0,
+              "verticalWeight": 1.0
+            },
+            {
+              "height": 0,
+              "width": 0,
+              "constraints": [2, 1, -100, -100],
+              "horizontalWeight": 1.0,
+              "verticalWeight": 1.0
+            },
+            {
+              "height": 200,
+              "width": 200,
+              "constraints": [-100, -100, -100, -100],
+              "horizontalWeight": 1.0,
+              "verticalWeight": 1.0
+            }
+          ]
+        }
+
+
+      ]
+    }
+  }
+}

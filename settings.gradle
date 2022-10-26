@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+
     }
 }
 dependencyResolutionManagement {
@@ -10,7 +11,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://maven.google.com/' }
+        maven { url 'https://s01.oss.sonatype.org/content/groups/staging/' }
     }
 }
 rootProject.name = "CustomViewTest"
 include ':app'
+include ':puzzle'
+include ':poiphoto'

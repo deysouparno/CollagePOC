@@ -10,22 +10,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:srcCompat="@drawable/deer2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintEnd_toStartOf="@id/view2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/view2"
+        app:layout_constraintBottom_toTopOf="@id/view3"
         android:background="#D32F2F"
         />
+
     <com.example.customviewtest.ZoomImageView
         android:id="@+id/view2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#00796B"
-        app:srcCompat="@drawable/elephant"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/view3"
-        app:layout_constraintTop_toBottomOf="@id/view1"
-        app:layout_constraintBottom_toTopOf="@id/view4"/>
+
+        app:layout_constraintBottom_toTopOf="@id/view4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/view1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/elephant" />
 
     <com.example.customviewtest.ZoomImageView
         android:id="@+id/view3"
@@ -33,10 +36,11 @@
         android:layout_height="0dp"
         android:background="#388E3C"
         android:scaleType="matrix"
-        app:layout_constraintBottom_toBottomOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/view2"
-        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintBottom_toTopOf="@id/view5"
+        app:layout_constraintEnd_toEndOf="@id/view1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view1"
         app:srcCompat="@drawable/tiger" />
 
     <com.example.customviewtest.ZoomImageView
@@ -44,11 +48,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#512DA8"
-        app:srcCompat="@drawable/deer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/view5"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view2"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/view5"
+        app:layout_constraintTop_toBottomOf="@id/view2"
+        app:srcCompat="@drawable/deer" />
 
     <com.example.customviewtest.ZoomImageView
         android:id="@+id/view5"
@@ -56,9 +60,10 @@
         android:layout_height="0dp"
         android:background="#FFA000"
         app:srcCompat="@drawable/bird"
+        app:layout_constraintVertical_weight="1"
         app:layout_constraintBottom_toBottomOf="@id/view4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/view4"
-        app:layout_constraintTop_toTopOf="@+id/view4" />
+        app:layout_constraintEnd_toEndOf="@id/view3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

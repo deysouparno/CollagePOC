@@ -69,7 +69,17 @@
         app:layout_constraintBottom_toTopOf="@id/padding_slider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat" >
+        <com.xiaopo.flying.puzzle.PuzzleView
+            android:id="@+id/puzzle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+<!--        <com.xiaopo.flying.puzzle.SquarePuzzleView-->
+<!--            android:id="@+id/square_puzzle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent" />-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <com.google.android.material.slider.Slider

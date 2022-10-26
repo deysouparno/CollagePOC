@@ -1,19 +1,31 @@
 package com.example.customviewtest
 
-import android.content.ClipData
-import android.content.ClipDescription
+import `in`.simplifiedbytes.maskedimageview.PngMaskImageView
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Matrix
-import android.graphics.PointF
-import android.os.Build
+import android.graphics.*
+import android.graphics.Matrix.ScaleToFit
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.AttributeSet
-import android.view.GestureDetector
-import android.view.MotionEvent
-import android.view.ScaleGestureDetector
-import android.view.View
+import android.util.Log
+import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.ScaleGestureDetector.OnScaleGestureListener
+import android.view.View.*
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Interpolator
+import android.widget.ImageView
+import android.widget.ImageView.ScaleType
+import android.widget.OverScroller
 import androidx.annotation.Nullable
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.MotionEventCompat
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.shape.ShapeAppearanceModel
 
 
 class ZoomImageView : ShapeableImageView, View.OnTouchListener,
@@ -270,34 +282,111 @@ class ZoomImageView : ShapeableImageView, View.OnTouchListener,
     }
 }
 
-class CustomImageView(context: Context, dragable: Boolean = false) : ConstraintLayout(context),
-    ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
-
-    val imageView = ShapeableImageView(context)
+class CustomImageView(context: Context) : ShapeableImageView(context),
+    GestureDetector.OnGestureListener, View.OnTouchListener {
 
     private var xDown = 0f;
     private var yDown = 0f
     private var mScaleFactor = 1.0f
 
-    override fun onScale(p0: ScaleGestureDetector?): Boolean {
-        mScaleFactor *= p0?.scaleFactor ?: 1f
-        mScaleFactor = Math.max(
-            0.1f,
-            Math.min(mScaleFactor, 2f)
-        )
-        this.scaleX = mScaleFactor
-        this.scaleY = mScaleFactor
-        return true
-    }
+    private var mContext: Context? = null
+    private var mScaleDetector: ScaleGestureDetector? = null
+    private var mGestureDetector: GestureDetector? = null
 
-    override fun onScaleBegin(p0: ScaleGestureDetector?): Boolean {
+    var mMatrix: Matrix? = null
+    private var mMatrixValues: FloatArray? = null
+    var mode = ZoomImageView.NONE
+
+    // Scales
+    var mSaveScale = 1f
+    var mMinScale = 1f
+    var mMaxScale = 4f
+    var origWidth = 0f
+    var origHeight = 0f
+
+    private var mLast = PointF()
+    private var mStart = PointF()
+
+//    override fun onScale(p0: ScaleGestureDetector?): Boolean {
+//        mScaleFactor *= p0?.scaleFactor ?: 1f
+//        mScaleFactor = Math.max(
+//            0.1f,
+//            Math.min(mScaleFactor, 2f)
+//        )
+//        this.scaleX = mScaleFactor
+//        this.scaleY = mScaleFactor
+//        return true
+//    }
+//
+//    override fun onScaleBegin(p0: ScaleGestureDetector?): Boolean {
+//        return false
+//    }
+//
+//    override fun onScaleEnd(p0: ScaleGestureDetector?) {
+//    }
+
+    override fun onDown(motionEvent: MotionEvent): Boolean {
         return false
     }
 
-    override fun onScaleEnd(p0: ScaleGestureDetector?) {
+    override fun onShowPress(motionEvent: MotionEvent) {}
+    override fun onSingleTapUp(motionEvent: MotionEvent): Boolean {
+        return false
+    }
+
+    override fun onScroll(
+        motionEvent: MotionEvent,
+        motionEvent1: MotionEvent,
+        v: Float,
+        v1: Float
+    ): Boolean {
+        return false
+    }
+
+    override fun onLongPress(motionEvent: MotionEvent) {}
+    override fun onFling(
+        motionEvent: MotionEvent,
+        motionEvent1: MotionEvent,
+        v: Float,
+        v1: Float
+    ): Boolean {
+        return false
+    }
+
+    private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+            return true
+        }
+
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            var mScaleFactor = detector.scaleFactor
+            val prevScale = mSaveScale
+            mSaveScale *= mScaleFactor
+            if (mSaveScale > mMaxScale) {
+                mSaveScale = mMaxScale
+                mScaleFactor = mMaxScale / prevScale
+            } else if (mSaveScale < mMinScale) {
+                mSaveScale = mMinScale
+                mScaleFactor = mMinScale / prevScale
+            }
+
+            (this@CustomImageView.layoutParams as ConstraintLayout.LayoutParams).apply {
+                width = (width * mScaleFactor).toInt()
+                height = (height * mScaleFactor).toInt()
+            }
+
+            return true
+        }
+
+        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            super.onScaleEnd(detector)
+        }
     }
 
     override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+
+        mScaleDetector!!.onTouchEvent(motionEvent)
+        mGestureDetector!!.onTouchEvent(motionEvent)
 
         if (view == null || motionEvent == null) {
             return false
@@ -321,25 +410,58 @@ class CustomImageView(context: Context, dragable: Boolean = false) : ConstraintL
             }
         }
 
-        return true
+        return false
     }
 
 
     init {
-        this.addView(imageView)
-        imageView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-        imageView.setOnTouchListener(this)
+        mScaleDetector = ScaleGestureDetector(context, ScaleListener())
+        mMatrix = Matrix()
+        mMatrixValues = FloatArray(9)
+        imageMatrix = mMatrix
+        mGestureDetector = GestureDetector(context, this)
+        setOnTouchListener(this)
     }
 
 }
 
-class ImageViewContainer(context: Context): ConstraintLayout(context) {
-    lateinit var imageview: ZoomImageView
+class ImageViewContainer(context: Context): MaterialCardView(context) {
+    private var layout: ConstraintLayout
+    lateinit var imageview: AppCompatImageView
+    lateinit var maskedImageView: PngMaskImageView
+    lateinit var leftTile: View
+    lateinit var bottomTile: View
+
+    private var xDown = 0f;
+    private var yDown = 0f
+
+    init {
+        this.layout = ConstraintLayout(context)
+//        this.useCompatPadding = true
+        this.addView(layout)
+        this.layout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+//        this.shapeAppearanceModel = ShapeAppearanceModel().toBuilder().apply {
+//            setAllCornerSizes(0f)
+//        }.build()
+
+//        this.setContentPadding(2,2, 2, 2)
+        this.cardElevation = 0f
+//        this.background = ColorDrawable(Color.WHITE)
+        this.imageview = ZoomImageView(context)
+        this.layout.addView(imageview)
+        this.imageview.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+    }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     fun setUpImageView() {
-        this.addView(imageview)
-        imageview.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        this.layout.addView(imageview)
+        this.imageview.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+
     }
 
+
 }
+
+
+
