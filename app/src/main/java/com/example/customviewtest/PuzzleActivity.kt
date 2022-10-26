@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.customviewtest.databinding.ActivityPuzzleBinding
 import com.example.customviewtest.layout.slant.FourSlantLayout
+import com.example.customviewtest.layout.slant.SixSlantLayout
 import com.example.customviewtest.layout.slant.ThreeSlantLayout
 import com.xiaopo.flying.puzzle.Area
 import com.xiaopo.flying.puzzle.Line
@@ -25,7 +26,7 @@ class PuzzleActivity : AppCompatActivity() {
 
         binding.puzzle.apply {
 
-            puzzleLayout = FourSlantLayout(0)
+            puzzleLayout = SixSlantLayout(0)
             isTouchEnable = true;
             isNeedDrawLine = true;
             isNeedDrawOuterLine = true;
@@ -40,6 +41,8 @@ class PuzzleActivity : AppCompatActivity() {
         binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.black_panther))
         binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.elephant))
         binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.tiger))
+        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer2))
+        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer))
     }
 }
 

@@ -232,9 +232,9 @@ class FreestyleActivity : AppCompatActivity() {
             binding.collageContainer.addView(image)
 
             val imgHeight =
-                if (height > 0) (img.height * height).toInt() else (img.width * width).toInt()
+                if (img.height > 0) (img.height * height).toInt() else (img.width * width * -1).toInt()
             val imgWidth =
-                if (width > 0) (img.width * width).toInt() else (img.width * height).toInt()
+                if (img.width > 0) (img.width * width).toInt() else (img.width * height * -1).toInt()
 
 
             val params = (image.layoutParams as ConstraintLayout.LayoutParams).apply {
@@ -242,8 +242,8 @@ class FreestyleActivity : AppCompatActivity() {
                 width = imgWidth
             }
             image.layoutParams = params
-            image.x = img.point.x
-            image.y = img.point.y
+            image.x = if (img.point.x > 0) img.point.x * width else img.point.x * width * -1
+            image.y = if (img.point.y > 0) img.point.y * height else img.point.y * width * -1
             image.setCustomRotation(img.rotation)
 
             image.imageview.setOnLongClickListener {
