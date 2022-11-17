@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -20,10 +19,10 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.DragEvent
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
@@ -33,14 +32,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.customviewtest.databinding.ActivityCollageBinding
-import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.shape.CornerTreatment
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapePath
-import com.xiaopo.flying.puzzle.Line
-import com.xiaopo.flying.puzzle.PuzzleLayout
-import com.xiaopo.flying.puzzle.PuzzleView
-import com.xiaopo.flying.puzzle.slant.SlantPuzzleLayout
 import kotlin.math.abs
 
 
@@ -469,39 +463,6 @@ class CollageActivity : AppCompatActivity() {
 
         }
 
-    }
-
-    private fun ImageViewContainer.setUpImageView(
-        type: Int,
-        image: Drawable,
-        mask: Drawable? = null
-    ) {
-
-        val imageLayout = ImageViewContainer(this@CollageActivity)
-
-        val lp = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT
-        )
-
-        when (type) {
-
-            2 -> {
-                imageLayout.apply {
-
-                    imageLayout.addView(maskedImageView)
-                    maskedImageView.layoutParams = lp
-                }
-            }
-
-            else -> {
-                imageLayout.apply {
-                    imageview = ZoomImageView(this@CollageActivity)
-                    imageLayout.addView(imageview)
-                    imageview.layoutParams = lp
-                }
-            }
-        }
     }
 
     private fun addDragAndDrop(image: AppCompatImageView) {

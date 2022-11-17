@@ -1,15 +1,19 @@
 package com.example.customviewtest
 
 import android.graphics.Color
-import android.graphics.Rect
+import android.graphics.Matrix
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.customviewtest.databinding.ActivityPuzzleBinding
-import com.example.customviewtest.layout.slant.FourSlantLayout
 import com.example.customviewtest.layout.slant.SixSlantLayout
-import com.example.customviewtest.layout.slant.ThreeSlantLayout
+import com.example.customviewtest.layout.straight.ThreeStraightLayout
 import com.xiaopo.flying.puzzle.Area
 import com.xiaopo.flying.puzzle.Line
 import com.xiaopo.flying.puzzle.PuzzleLayout
@@ -26,7 +30,7 @@ class PuzzleActivity : AppCompatActivity() {
 
         binding.puzzle.apply {
 
-            puzzleLayout = SixSlantLayout(0)
+            puzzleLayout = ThreeStraightLayout(0)
             isTouchEnable = true;
             isNeedDrawLine = true;
             isNeedDrawOuterLine = true;
@@ -37,12 +41,37 @@ class PuzzleActivity : AppCompatActivity() {
             this.setAnimateDuration(300);
         }
 
-        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.varanasi))
+//        PuzzlePiece()
+        val cc = ContextCompat.getDrawable(this, R.drawable.varanasi)!!
+//        cc.intrinsicWidth
+
+        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.varanasi),
+            getMatrix(ContextCompat.getDrawable(this, R.drawable.varanasi)!!))
         binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.black_panther))
         binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.elephant))
-        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.tiger))
-        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer2))
-        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer))
+//        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.tiger))
+//        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer2))
+//        binding.puzzle.addPiece(ContextCompat.getDrawable(this, R.drawable.deer))
+        binding.puzzle.puzzlePieces.forEachIndexed { index, puzzlePiece ->
+            Log.d("scaleFix", "$index ${puzzlePiece.drawableBounds.height()}, ${puzzlePiece.drawableBounds.width()}")
+        }
+//        binding.root.addView(View(this).apply {
+//            layoutParams = ConstraintLayout.LayoutParams(702, 1159).apply {
+//                leftToLeft = binding.root.id
+//                topToTop = binding.root.id
+//                rightToRight = binding.root.id
+//                bottomToBottom = binding.root.id
+//            }
+//            setBackgroundColor(Color.CYAN)
+//        })
+    }
+
+    private fun getMatrix(drawable: Drawable): Matrix {
+        val imageRectF = RectF(0f, 0f, drawable.intrinsicWidth.toFloat(),
+            drawable.intrinsicHeight.toFloat()
+        )
+        val viewRectF = RectF(0f, 0f, binding.puzzle.width - 0.65f, binding.puzzle.height * 0.56f)
+        return Matrix().apply {  setRectToRect(imageRectF, viewRectF, Matrix.ScaleToFit.CENTER)}
     }
 }
 

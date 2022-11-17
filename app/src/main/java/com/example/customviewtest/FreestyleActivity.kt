@@ -3,6 +3,8 @@ package com.example.customviewtest
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -37,118 +39,47 @@ class FreestyleActivity : AppCompatActivity() {
         FreeStyleLayoutTemplate(
             images = arrayListOf(
                 FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(80f, 100f),
-                    -8f
+                    0.4f, 0.4f,
+                    Point(0.1f, 0.05f),
+                    0f
                 ),
                 FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(600f, 220f),
-                    6f
+                    0.4f, 0.4f,
+                    Point(0.4f, 0.5f),
+                    0f
                 ),
-                FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(80f, 1000f),
-                    8f
-                ),
-                FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(600f, 1200f),
-                    -2f
-                )
+
             ),
             stickers = arrayListOf(
                 StickerTemplate(
                     0.15f, 0.15f,
-                    Point(600f, 1200f),
+                    Point(0.3f, 0.2f),
                     0f,
                 ),
                 StickerTemplate(
                     0.15f, 0.15f,
-                    Point(600f, 1500f),
+                    Point(0.1f, 0.4f),
                     0f,
                 )
             )
         ),
-
         FreeStyleLayoutTemplate(
             images = arrayListOf(
                 FreeStyleImageTemplate(
-                    0.15f, 0.8f,
-                    Point(80f, 80f),
+                    0.7f, 0.5f,
+                    Point(0.05f, 0.1f),
                     0f
                 ),
                 FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(600f, 600f),
+                    0.4f, 0.3f,
+                    Point(0.595f, 0.6f),
                     0f
                 ),
-                FreeStyleImageTemplate(
-                    0.3f, 0.4f,
-                    Point(80f, 800f),
-                    0f
+
                 ),
-                FreeStyleImageTemplate(
-                    0.15f, 0.8f,
-                    Point(120f, 1600f),
-                    0f
-                )
+            stickers = arrayListOf(
+
             )
-        ),
-
-        FreeStyleLayoutTemplate(
-            images = arrayListOf(
-                FreeStyleImageTemplate(
-                    0.6f, 0.5f,
-                    Point(80f, 80f),
-                    0f
-                ),
-                FreeStyleImageTemplate(
-                    0.35f, 0.45f,
-                    Point(500f, 1000f),
-                    0f
-                ),
-
-                )
-        ),
-
-        FreeStyleLayoutTemplate(
-            images = arrayListOf(
-                FreeStyleImageTemplate(
-                    0.15f, 0.8f,
-                    Point(80f, 80f),
-                    0f
-                ),
-                FreeStyleImageTemplate(
-                    0.15f, 0.8f,
-                    Point(80f, 550f),
-                    2f
-                ),
-
-                FreeStyleImageTemplate(
-                    0.15f, 0.8f,
-                    Point(80f, 1100f),
-                    -2f
-                ),
-
-                )
-        ),
-
-        FreeStyleLayoutTemplate(
-            images = arrayListOf(
-                FreeStyleImageTemplate(
-                    0.45f, 0.45f,
-                    Point(80f, 80f),
-                    0f,
-
-                    ),
-                FreeStyleImageTemplate(
-                    0.45f, 0.45f,
-                    Point(500f, 1000f),
-                    0f,
-                ),
-
-                )
         ),
 
         )
@@ -162,7 +93,7 @@ class FreestyleActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            height = windowManager.maximumWindowMetrics.bounds.height()
+            height = windowManager.maximumWindowMetrics.bounds.height() - 50
             width = windowManager.maximumWindowMetrics.bounds.width()
 
         } else {
@@ -215,21 +146,15 @@ class FreestyleActivity : AppCompatActivity() {
 
         layout.images.forEachIndexed { i, img ->
 
-            val imageLayout = Class.forName(img.viewClass)
-                .getConstructor(Context::class.java).newInstance(this) as AppCompatImageView
+//            val image = Class.forName(img.viewClass)
+//                .getConstructor(Context::class.java).newInstance(this) as AppCompatImageView
 
-            binding.collageContainer.addView(imageLayout)
-
-            val image = ImageViewContainer(this).apply {
-                imageview.layoutParams = ViewGroup.LayoutParams(
-                    ConstraintLayout.LayoutParams.MATCH_PARENT,
-                    ConstraintLayout.LayoutParams.MATCH_PARENT
-                )
+            val imageLayout = CustomImageView(this@FreestyleActivity).apply {
+                setImageDrawable(drawables[i])
+                setBackgroundColor(Color.BLUE)
             }
 
-
-            image.imageview.setImageDrawable(drawables[i])
-            binding.collageContainer.addView(image)
+            binding.collageContainer.addView(imageLayout)
 
             val imgHeight =
                 if (img.height > 0) (img.height * height).toInt() else (img.width * width * -1).toInt()
@@ -237,109 +162,115 @@ class FreestyleActivity : AppCompatActivity() {
                 if (img.width > 0) (img.width * width).toInt() else (img.width * height * -1).toInt()
 
 
-            val params = (image.layoutParams as ConstraintLayout.LayoutParams).apply {
+            val params = (imageLayout.layoutParams as ConstraintLayout.LayoutParams).apply {
                 height = imgHeight
                 width = imgWidth
             }
-            image.layoutParams = params
-            image.x = if (img.point.x > 0) img.point.x * width else img.point.x * width * -1
-            image.y = if (img.point.y > 0) img.point.y * height else img.point.y * width * -1
-            image.setCustomRotation(img.rotation)
+            imageLayout.layoutParams = params
+            imageLayout.x = if (img.point.x > 0) img.point.x * width else img.point.x * width * -1
+            imageLayout.y = if (img.point.y > 0) img.point.y * height else img.point.y * width * -1
+            imageLayout.setCustomRotation(img.rotation)
 
-            image.imageview.setOnLongClickListener {
-                Log.d("task", "long press state: ${it.isLongClickable}")
-                if (!it.isLongClickable) return@setOnLongClickListener false
+//            imageLayout.setOnLongClickListener {
+//                Log.d("task", "long press state: ${it.isLongClickable}")
+//                if (!it.isLongClickable) return@setOnLongClickListener false
+//
+//                val clipText = "ClipData"
+//                val item = ClipData.Item(clipText)
+//                val mimetypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+//                val data = ClipData(clipText, mimetypes, item)
+//
+//                val dragShadowBuilder = View.DragShadowBuilder(it)
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    it.startDragAndDrop(data, dragShadowBuilder, it, 0)
+//                } else {
+//                    it.startDrag(data, dragShadowBuilder, it, 0)
+//                }
+//                it.visibility = View.VISIBLE
+//                true
+//            }
 
-                val clipText = "ClipData"
-                val item = ClipData.Item(clipText)
-                val mimetypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
-                val data = ClipData(clipText, mimetypes, item)
-
-                val dragShadowBuilder = View.DragShadowBuilder(it)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    it.startDragAndDrop(data, dragShadowBuilder, it, 0)
-                } else {
-                    it.startDrag(data, dragShadowBuilder, it, 0)
-                }
-                it.visibility = View.VISIBLE
-                true
-            }
-
-            image.imageview.setOnDragListener(dragListener)
+//            imageLayout.imageview.setOnDragListener(dragListener)
         }
 
         layout.stickers.forEachIndexed { i, stc ->
 
-            val sticker = AppCompatImageView(this)
+            val sticker = FreestyleImageView(this)
 
             sticker.setImageDrawable(stickers[i])
             binding.collageContainer.addView(sticker)
 
-            val imgHeight = (stc.height * height).toInt()
-            val imgWidth = (stc.width * width).toInt()
+//            val imgHeight = (stc.height * height).toInt()
+//            val imgWidth = (stc.width * width).toInt()
+
+            val imgHeight =
+                if (stc.height > 0) (stc.height * height).toInt() else (stc.width * width * -1).toInt()
+            val imgWidth =
+                if (stc.width > 0) (stc.width * width).toInt() else (stc.width * height * -1).toInt()
+
 
             val params = (sticker.layoutParams as ConstraintLayout.LayoutParams).apply {
                 height = imgHeight
-                width = imgWidth
-//                topToTop = binding.collageContainer.id
-//                leftToLeft = binding.collageContainer.id
+//                width = imgWidth
             }
             sticker.layoutParams = params
-            sticker.x = stc.point.x
-            sticker.y = stc.point.y
+
+            sticker.layoutParams = params
+            sticker.x = if (stc.point.x > 0) stc.point.x * width else stc.point.x * width * -1
+            sticker.y = if (stc.point.y > 0) stc.point.y * height else stc.point.y * width * -1
             sticker.setCustomRotation(stc.rotation)
         }
     }
 
-    private val dragListener = View.OnDragListener { view, dragEvent ->
-        when (dragEvent.action) {
-            DragEvent.ACTION_DRAG_STARTED -> {
-                dragEvent.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
-            }
-
-            DragEvent.ACTION_DRAG_ENTERED -> {
-                view.invalidate()
-                true
-            }
-
-            DragEvent.ACTION_DRAG_LOCATION -> true
-
-            DragEvent.ACTION_DRAG_EXITED -> {
-                view.invalidate()
-                true
-            }
-
-            DragEvent.ACTION_DROP -> {
-                val item = dragEvent.clipData.getItemAt(0)
-                val dragData = item.text
-                Log.d("task", dragData.toString())
-
-                view.invalidate()
-                val v = dragEvent.localState as ShapeableImageView
-                val owner = v.parent as ConstraintLayout
-                val destination = view as ShapeableImageView
-                if (owner == destination) return@OnDragListener false
-//                val destinationView = destination[0]
-//                owner.removeAllViews()
-//                destination.removeAllViews()
-//                owner.addView(destinationView)
-//                destination.addView(v)
-                val od = v.drawable
-                v.setImageDrawable(destination.drawable)
-                destination.setImageDrawable(od)
-                v.visibility = View.VISIBLE
-                true
-            }
-
-
-            DragEvent.ACTION_DRAG_ENDED -> {
-                view.invalidate()
-                true
-            }
-
-            else -> false
-        }
-    }
+//    private val dragListener = View.OnDragListener { view, dragEvent ->
+//        when (dragEvent.action) {
+//            DragEvent.ACTION_DRAG_STARTED -> {
+//                dragEvent.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+//            }
+//
+//            DragEvent.ACTION_DRAG_ENTERED -> {
+//                view.invalidate()
+//                true
+//            }
+//
+//            DragEvent.ACTION_DRAG_LOCATION -> true
+//
+//            DragEvent.ACTION_DRAG_EXITED -> {
+//                view.invalidate()
+//                true
+//            }
+//
+//            DragEvent.ACTION_DROP -> {
+//                val item = dragEvent.clipData.getItemAt(0)
+//                val dragData = item.text
+//                Log.d("task", dragData.toString())
+//
+//                view.invalidate()
+//                val v = dragEvent.localState as ShapeableImageView
+//                val owner = v.parent as ConstraintLayout
+//                val destination = view as ShapeableImageView
+//                if (owner == destination) return@OnDragListener false
+////                val destinationView = destination[0]
+////                owner.removeAllViews()
+////                destination.removeAllViews()
+////                owner.addView(destinationView)
+////                destination.addView(v)
+//                val od = v.drawable
+//                v.setImageDrawable(destination.drawable)
+//                destination.setImageDrawable(od)
+//                v.visibility = View.VISIBLE
+//                true
+//            }
+//
+//
+//            DragEvent.ACTION_DRAG_ENDED -> {
+//                view.invalidate()
+//                true
+//            }
+//
+//            else -> false
+//        }
+//    }
 
     private fun View.setCustomRotation(deg: Float) {
 //        this.animation = RotateAnimation(0f, deg).apply {

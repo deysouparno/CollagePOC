@@ -3,6 +3,8 @@ package com.xiaopo.flying.puzzle;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 import java.util.Arrays;
 
 import static java.lang.Math.round;
@@ -145,20 +147,29 @@ public class MatrixUtils {
 
     Matrix matrix = new Matrix();
 
-    float offsetX = rectF.centerX() - width / 2;
-    float offsetY = rectF.centerY() - height / 2;
-
-    matrix.postTranslate(offsetX, offsetY);
-
     float scale;
 
-    if (width * rectF.height() > rectF.width() * height) {
-      scale = (rectF.height() + extraSize) / height;
-    } else {
-      scale = (rectF.width() + extraSize) / width;
-    }
+//    if (width * rectF.height() > rectF.width() * height) {
+//      scale = (rectF.height() + extraSize) / height;
+//    } else {
+//      scale = (rectF.width() + extraSize) / width;
+//    }
 
-    matrix.postScale(scale, scale, rectF.centerX(), rectF.centerY());
+    float scaleX = (rectF.width() + extraSize) / width, scaleY = (rectF.height() + extraSize) / height;
+
+    scale = Math.max(scaleX, scaleY);
+
+    matrix.setScale(scale, scale, rectF.centerX(), rectF.centerY());
+
+    float offsetX = rectF.centerX() - (width * scale) / 2;
+    float offsetY = rectF.centerY() - (height * scale) / 2;
+
+    matrix.setTranslate(offsetX, offsetY);
+
+//    Log.d("scaleFix", "scale called in matrix utils " + scale);
+
+
+    Log.d("scaleFix", "extraSize: " + extraSize);
 
     return matrix;
   }

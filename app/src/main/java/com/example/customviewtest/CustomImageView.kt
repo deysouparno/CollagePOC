@@ -22,6 +22,7 @@ import android.widget.OverScroller
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.MotionEventCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -395,6 +396,7 @@ class CustomImageView(context: Context) : ShapeableImageView(context),
             MotionEvent.ACTION_DOWN -> {
                 xDown = motionEvent.x
                 yDown = motionEvent.y
+                this.isClickable = false
             }
 
             MotionEvent.ACTION_MOVE -> {
@@ -407,6 +409,10 @@ class CustomImageView(context: Context) : ShapeableImageView(context),
                     this.performLongClick()
                 }
 
+            }
+
+            MotionEvent.ACTION_UP -> {
+                this.isClickable = true
             }
         }
 
@@ -428,28 +434,13 @@ class CustomImageView(context: Context) : ShapeableImageView(context),
 class ImageViewContainer(context: Context): MaterialCardView(context) {
     private var layout: ConstraintLayout
     lateinit var imageview: AppCompatImageView
-    lateinit var maskedImageView: PngMaskImageView
-    lateinit var leftTile: View
-    lateinit var bottomTile: View
-
-    private var xDown = 0f;
-    private var yDown = 0f
 
     init {
         this.layout = ConstraintLayout(context)
-//        this.useCompatPadding = true
         this.addView(layout)
         this.layout.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-//        this.shapeAppearanceModel = ShapeAppearanceModel().toBuilder().apply {
-//            setAllCornerSizes(0f)
-//        }.build()
-
-//        this.setContentPadding(2,2, 2, 2)
         this.cardElevation = 0f
-//        this.background = ColorDrawable(Color.WHITE)
-        this.imageview = ZoomImageView(context)
-        this.layout.addView(imageview)
-        this.imageview.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+
     }
 
 
@@ -460,6 +451,78 @@ class ImageViewContainer(context: Context): MaterialCardView(context) {
 
     }
 
+}
+
+class FreestyleImageView(context: Context) : AppCompatImageView(context) {
+    private var mScaleGestureDetector: ScaleGestureDetector? = null
+    private var mScaleFactor = 1.0f
+
+    private var saveX = 0f
+    private var saveY = 0f
+
+    private var isScalling = false
+
+    init {
+        mScaleGestureDetector = ScaleGestureDetector(context, ScaleListener())
+        this.scaleType = ScaleType.FIT_CENTER
+        setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                mScaleGestureDetector?.onTouchEvent(event);
+                if (event?.pointerCount == 2 ) return false
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        saveX = event.x
+                        saveY = event.y
+                        this@FreestyleImageView.bringToFront()
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        val diffX = event.x - saveX
+                        val diffY = event.y - saveY
+                        this@FreestyleImageView.x = this@FreestyleImageView.x + diffX
+                        this@FreestyleImageView.y = this@FreestyleImageView.y + diffY
+
+                    }
+                }
+
+                return true;
+            }
+        })
+
+//        setMask(ContextCompat.getDrawable(context, R.drawable.pip_bottle)!!)
+    }
+
+    override fun onFocusChanged(gainFocus: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect)
+        if (gainFocus) {
+            this.setBackgroundColor(Color.parseColor("#66000000"))
+        } else {
+            this.setBackgroundColor(Color.TRANSPARENT)
+        }
+    }
+
+    inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            mScaleFactor *= scaleGestureDetector.scaleFactor
+            mScaleFactor = 0.4f.coerceAtLeast(mScaleFactor.coerceAtMost(10.0f))
+            scaleX = mScaleFactor
+            scaleY = mScaleFactor
+            return true
+        }
+
+        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+            isScalling = true
+            return super.onScaleBegin(detector)
+        }
+
+        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            isScalling = false
+            super.onScaleEnd(detector)
+        }
+    }
+
+    fun callSuperTouchEvent(event: MotionEvent) {
+        super.onTouchEvent(event)
+    }
 
 }
 
