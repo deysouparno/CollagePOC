@@ -10,11 +10,11 @@
     <item name="image_8" type="id"/>
     <item name="image_9" type="id"/>
     <item name="image_10" type="id"/>
-    <item name="guide_1" type="id"/>
-    <item name="guide_2" type="id"/>
-    <item name="guide_3" type="id"/>
-    <item name="guide_4" type="id"/>
-    <item name="guide_5" type="id"/>
-    <item name="guide_6" type="id"/>
-    <item name="guide_7" type="id"/>
+    <item name="video_1" type="id"/>
+    <item name="video_2" type="id"/>
+    <item name="video_3" type="id"/>
+    <item name="video_4" type="id"/>
+    <item name="video_5" type="id"/>
+    <item name="video_6" type="id"/>
+    <item name="video_7" type="id"/>
 </resources>

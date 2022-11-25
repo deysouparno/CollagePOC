@@ -1,32 +1,21 @@
 package com.example.customviewtest
 
-import `in`.simplifiedbytes.maskedimageview.PngMaskImageView
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.*
-import android.graphics.Matrix.ScaleToFit
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.net.Uri
+import android.graphics.Color
+import android.graphics.Matrix
+import android.graphics.PointF
+import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
-import android.view.*
-import android.view.GestureDetector.SimpleOnGestureListener
-import android.view.ScaleGestureDetector.OnScaleGestureListener
-import android.view.View.*
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.Interpolator
-import android.widget.ImageView
-import android.widget.ImageView.ScaleType
-import android.widget.OverScroller
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.View
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.MotionEventCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.shape.ShapeAppearanceModel
 
 
 class ZoomImageView : ShapeableImageView, View.OnTouchListener,

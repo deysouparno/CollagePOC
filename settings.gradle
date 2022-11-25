@@ -19,4 +19,3 @@ dependencyResolutionManagement {
 rootProject.name = "CustomViewTest"
 include ':app'
 include ':puzzle'
-include ':poiphoto'

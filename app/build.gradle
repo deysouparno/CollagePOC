@@ -32,6 +32,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+    }
 }
 
 dependencies {
@@ -54,5 +59,12 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    implementation 'com.arthenica:mobile-ffmpeg-min:4.4.LTS'
+
+    implementation 'com.github.dbof10:Bitmp4:0.1.1'
+
+    implementation 'org.jcodec:jcodec:0.2.5'
+    implementation 'org.jcodec:jcodec-android:0.2.5'
 
 }

@@ -14,7 +14,6 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -92,7 +91,6 @@ public class PuzzlePiece {
         canvas.drawPath(area.getAreaPath(), paint);
         paint.setXfermode(SRC_IN);
       }
-//      Log.d("scaleFix", "bitmap draw matrix bounds: "+ mappedBounds.height() + mappedBounds.width());
       canvas.drawBitmap(bitmap, matrix, paint);
       paint.setXfermode(null);
 
@@ -211,14 +209,12 @@ public class PuzzlePiece {
 
   private void zoom(float scaleX, float scaleY, PointF midPoint) {
     matrix.set(previousMatrix);
-    Log.d("scaleFix", "scale called in zoom " + scaleX + " " + scaleY);
     postScale(scaleX, scaleY, midPoint);
   }
 
   void zoomAndTranslate(float scaleX, float scaleY, PointF midPoint, float offsetX, float offsetY) {
     matrix.set(previousMatrix);
     postTranslate(offsetX, offsetY);
-    Log.d("scaleFix", "scale called in zoomandtranslate " + scaleX + " " + scaleY);
     postScale(scaleX, scaleY, midPoint);
   }
 
@@ -232,7 +228,6 @@ public class PuzzlePiece {
   }
 
   void postScale(float scaleX, float scaleY, PointF midPoint) {
-    Log.d("scaleFix", "scale called in postscale " + scaleX + " " + scaleY);
     this.matrix.postScale(scaleX, scaleY, midPoint.x, midPoint.y);
   }
 
@@ -282,7 +277,6 @@ public class PuzzlePiece {
   }
 
   void moveToFillArea(final View view) {
-//    Log.d("scaleFix", "moveToFillArea called");
     if (isFilledArea()) return;
     record();
 
@@ -324,7 +318,6 @@ public class PuzzlePiece {
     midPoint.set(getCurrentDrawableCenterPoint());
 
     tempMatrix.set(matrix);
-    Log.d("scaleFix", "scale called in fill area " + (endScale / startScale) + " " + (endScale / startScale));
     tempMatrix.postScale(endScale / startScale, endScale / startScale, midPoint.x, midPoint.y);
 
     RectF rectF = new RectF(drawableBounds);
@@ -383,7 +376,6 @@ public class PuzzlePiece {
     if (!canFilledArea()) {
       final Area area = getArea();
       float deltaScale = MatrixUtils.getMinMatrixScale(this) / getMatrixScale();
-      Log.d("scleFix", "scale called in updatewidth " + deltaScale);
       postScale(deltaScale, deltaScale, area.getCenterPoint());
       record();
 

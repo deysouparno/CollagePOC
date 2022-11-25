@@ -64,6 +64,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, PuzzleActivity::class.java))
         }
 
+        binding.videoCollageButton.setOnClickListener {
+            startActivity(Intent(this, VideoCollageActivity::class.java))
+        }
+
 //        val v = TestView(this)
 //        v.setImageDrawable(getDrawable(R.drawable.bird))
 //        v.setBackgroundColor(Color.YELLOW)

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.customviewtest">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,8 +17,13 @@
         android:theme="@style/Theme.CustomViewTest"
         tools:targetApi="31">
         <activity
+            android:name=".VideoCollageActivity"
+            android:exported="false"
+            android:theme="@style/Theme.CustomViewTest.NoActionBar"/>
+        <activity
             android:name=".PuzzleActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.CustomViewTest.NoActionBar"/>
         <activity
             android:name=".FreestyleActivity"
             android:exported="false"

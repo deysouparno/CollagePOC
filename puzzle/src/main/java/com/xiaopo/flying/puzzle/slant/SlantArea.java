@@ -16,7 +16,7 @@ import static com.xiaopo.flying.puzzle.slant.SlantUtils.intersectionOfLines;
 /**
  * @author wupanjie
  */
-public class SlantArea implements Area {
+class SlantArea implements Area {
   SlantLine lineLeft;
   SlantLine lineTop;
   SlantLine lineRight;

@@ -55,6 +55,8 @@ class PuzzleActivity : AppCompatActivity() {
         binding.puzzle.puzzlePieces.forEachIndexed { index, puzzlePiece ->
             Log.d("scaleFix", "$index ${puzzlePiece.drawableBounds.height()}, ${puzzlePiece.drawableBounds.width()}")
         }
+
+        
 //        binding.root.addView(View(this).apply {
 //            layoutParams = ConstraintLayout.LayoutParams(702, 1159).apply {
 //                leftToLeft = binding.root.id
